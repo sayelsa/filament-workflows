@@ -11,6 +11,10 @@ class WorkflowAction extends Model
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'data' => '[]',
+    ];
+
     protected $casts = [
         'data' => 'array',
     ];

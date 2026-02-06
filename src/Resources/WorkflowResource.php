@@ -316,7 +316,19 @@ class WorkflowResource extends Resource
                                 ->hiddenLabel()
                                 ->relationship('actions')
                                 ->itemLabel(fn(array $state): ?string => $state['action'] ?? null)
+                                ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
+                                    $data['data'] ??= [];
+                                    return $data;
+                                })
+                                ->mutateRelationshipDataBeforeSaveUsing(function (array $data): array {
+                                    $data['data'] ??= [];
+                                    return $data;
+                                })
                                 ->schema([
+                                    Forms\Components\ViewField::make('data')
+                                        ->view('filament-workflows::components.array-state')
+                                        ->default([])
+                                        ->dehydrateStateUsing(fn ($state) => $state ?? []),
                                     Forms\Components\Select::make('action')
                                         ->hiddenLabel()
                                         ->required()
