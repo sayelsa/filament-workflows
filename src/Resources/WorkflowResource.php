@@ -365,8 +365,17 @@ class WorkflowResource extends Resource
                                                     }
                                                     return $action->getFields();
                                                 })
-                                                ->action(function (array $data, FilamentWorkflows\Models\WorkflowAction $workflowAction): void {
-                                                    $workflowAction->update($data);
+                                                ->action(function (array $data, FilamentWorkflows\Models\WorkflowAction $workflowAction, Forms\Set $set): void {
+                                                    // Write data back into the repeater's Livewire state
+                                                    // so it is included when the parent form saves (e.g. on create)
+                                                    foreach ($data as $key => $value) {
+                                                        $set($key, $value);
+                                                    }
+
+                                                    // Also persist directly if the record already exists in DB
+                                                    if ($workflowAction->exists) {
+                                                        $workflowAction->update($data);
+                                                    }
                                                 })
                                         )
                                         ->afterStateUpdated(function ($state, Forms\Set $set) {

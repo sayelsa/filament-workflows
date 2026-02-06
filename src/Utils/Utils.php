@@ -112,7 +112,7 @@ class Utils
                 }
 
                 $relatedModel = $relation->getRelated();
-                $relatedClass = get_class($relatedModel);
+                $relatedClass = $relatedModel::class;
 
                 // Check for Notifiable trait in the related model
                 if (in_array(Notifiable::class, class_uses_recursive($relatedClass))) {
@@ -150,7 +150,7 @@ class Utils
                     // For methods without return type hints, try to call them
                     $result = $method->invoke($model);
                     if ($result instanceof Relation) {
-                        $relations[$method->getName()] = get_class($result);
+                        $relations[$method->getName()] = $result::class;
                     }
                 }
             } catch (\Exception $e) {

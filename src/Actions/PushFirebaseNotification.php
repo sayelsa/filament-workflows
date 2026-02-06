@@ -166,7 +166,7 @@ class PushFirebaseNotification extends Action
                     'id' => Str::random(36),
                     'type' => 'database',
                     'notifiable_id' => $user->id,
-                    'notifiable_type' => get_class($user),
+                    'notifiable_type' => $user::class,
                     'data' => $notification_data,
                 ]);
             }

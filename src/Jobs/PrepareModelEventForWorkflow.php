@@ -43,7 +43,7 @@ class PrepareModelEventForWorkflow implements ShouldQueue
     public function handle()
     {
         $workflows = Workflow::with(['conditions', 'actions'])
-            ->where('model_type', get_class($this->model))
+            ->where('model_type', $this->model::class)
             ->where('model_event', $this->model_event)
             ->get();
 
